@@ -42,8 +42,29 @@ class UserDatabaseController extends Controller{
     }
 
     public function addDatabase(Request $request){
-        $contents = Storage::put('asd.txt','writeeen');
-        return "hihi";
+        $data = [
+            'DB_USER_HOST' => $request->dbHost,
+            'DB_USER_PORT'=> $request->dbPort,
+            'DB_USER_DATABASE'=> $request->dbName,
+            'DB_USER_USERNAME'=> $request->dbUsername,
+            'DB_USER_PASSWORD'=> $request->dbPassword
+        ];
+        
+        $DBregister = json_decode(Storage::get('databaseRegister.json'),true);
+        array_push($DBregister["databases"],$data);
+        Storage::put('databaseRegister.json',json_encode($DBregister));
+
+    }
+    public function deleteDatabase(Request $request){
+        $DBregister = json_decode(Storage::get('databaseRegister.json'),true);
+        array_splice($DBregister["databases"], $request->dbId , 1);
+        Storage::put('databaseRegister.json',json_encode($DBregister));
+    }
+
+    
+    public function readDatabases(){
+        $DBregister = json_decode(Storage::get('databaseRegister.json'),true);
+        return $DBregister["databases"];
     }
 
     private function update_env( $data = [] ) : void
