@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
-    public function saveDashboard(Request $request)
+    public function addDashboard(Request $request)
     {
         $dashboardData = [
             'id' => $request->id,
@@ -19,5 +19,25 @@ class DashboardController extends Controller
         $DashboardRegister = json_decode(Storage::get('dashboardRegister.json'), true);
         array_push($DashboardRegister["data"], $dashboardData);
         Storage::put('dashboardRegister.json', json_encode($DashboardRegister));
+        Storage::put('dashboards/dashboard-' . $request->id . '.json', '{"data":[]}');
+        $this->addBaseComponent($request->id);
+    }
+    public function readDashboard()
+    {
+        $DashboardRegister = json_decode(Storage::get('dashboardRegister.json'), true);
+        return $DashboardRegister["data"];
+    }
+    private function addBaseComponent($parentId)
+    {
+        $componentData = [
+            'id' => '0',
+            'parentId' => $parentId,
+            'component' => 'BaseComponent',
+            'dataQuery' => ''
+        ];
+
+        $ComponentRegister = json_decode(Storage::get('dashboards/dashboard-' . $parentId . '.json'), true);
+        array_push($ComponentRegister["data"], $componentData);
+        Storage::put('dashboards/dashboard-' . $parentId . '.json', json_encode($ComponentRegister));
     }
 }
