@@ -15,6 +15,7 @@ $router->post('metric-os-api/add-dashboard', 'DashboardController@addDashboard')
 $router->post('metric-os-api/read-dashboards', 'DashboardController@readDashboard');
 //$router->post('metric-os-api/delete-dashboard', 'DashboardController@deleteDashboard');
 
-$router->post('metric-os-api/save-component', 'ComponentController@saveComponent');
 $router->post('metric-os-api/read-components', 'ComponentController@readComponents');
-$router->post('metric-os-api/read-component', 'ComponentController@readComponent');
+$router->post('metric-os-api/save-component', 'ComponentController@saveComponent');
+$router->post('metric-os-api/move-component', 'ComponentController@moveComponents');
+$router->post('metric-os-api/resize-component', 'ComponentController@resizeComponents');

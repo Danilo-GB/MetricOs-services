@@ -11,10 +11,14 @@ class ComponentController extends Controller
     public function saveComponent(Request $request)
     {
         $componentData = [
-            'id' => $request->id,
+            'i' => intval($request->i),
             'parentId' => $request->parentId,
             'component' => $request->component,
-            'dataQuery' => $request->dataQuery
+            'dataQuery' => $request->dataQuery,
+            'x' => intval($request->x),
+            'y' => intval($request->y),
+            'w' => intval($request->w),
+            'h' => intval($request->h),
         ];
 
         $ComponentRegister = json_decode(Storage::get('dashboards/dashboard-' . $request->parentId . '.json'), true);
@@ -33,6 +37,20 @@ class ComponentController extends Controller
         return $Component;
     }
 
+    public function moveComponents(Request $request)
+    {
+        $ComponentRegister = json_decode(Storage::get('dashboards/dashboard-' . $request->parentId . '.json'), true);
+        $ComponentRegister["data"][$request->i]["x"] = intval($request->newX);
+        $ComponentRegister["data"][$request->i]["y"] = intval($request->newY);
+        Storage::put('dashboards/dashboard-' . $request->parentId . '.json', json_encode($ComponentRegister));
+    }
+    public function resizeComponents(Request $request)
+    {
+        $ComponentRegister = json_decode(Storage::get('dashboards/dashboard-' . $request->parentId . '.json'), true);
+        $ComponentRegister["data"][$request->i]["h"] = intval($request->newH);
+        $ComponentRegister["data"][$request->i]["w"] = intval($request->newW);
+        Storage::put('dashboards/dashboard-' . $request->parentId . '.json', json_encode($ComponentRegister));
+    }
     private function findObjectById($array, $id)
     {
 
