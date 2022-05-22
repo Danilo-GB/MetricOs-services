@@ -20,7 +20,7 @@ class DashboardController extends Controller
         array_push($DashboardRegister["data"], $dashboardData);
         Storage::put('dashboardRegister.json', json_encode($DashboardRegister));
         Storage::put('dashboards/dashboard-' . $request->id . '.json', '{"data":[]}');
-        $this->addBaseComponent($request->id);
+        //$this->addBaseComponent($request->id);
     }
     public function readDashboard()
     {
@@ -30,10 +30,18 @@ class DashboardController extends Controller
     private function addBaseComponent($parentId)
     {
         $componentData = [
-            'id' => '0',
-            'parentId' => $parentId,
-            'component' => 'BaseComponent',
-            'dataQuery' => ''
+            "i" => 0,
+            "parentId" => $parentId,
+            "dataQuery" => "Select * FROM productos ORDER BY id",
+            "type" => "line",
+            "zoom" => "false",
+            "title" => "Base Component",
+            "xaxis" => "nombre",
+            "yaxis" => "precio",
+            "x" => 0,
+            "y" => 0,
+            "w" => 5,
+            "h" => 8
         ];
 
         $ComponentRegister = json_decode(Storage::get('dashboards/dashboard-' . $parentId . '.json'), true);

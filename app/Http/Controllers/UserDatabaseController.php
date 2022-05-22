@@ -13,22 +13,7 @@ class UserDatabaseController extends Controller
     public function makeQuery(Request $request)
     {
 
-        $data = (isset($request->data)) ? $request->data : "*";
-        $where = (isset($request->where)) ? $request->where : "true";
-        $orderBy = (isset($request->orderBy)) ? $request->orderBy : "true";
-        $orderType = (isset($request->orderType)) ? $request->orderType : "ASC";
-        $groupBy = (isset($request->groupBy)) ? $request->groupBy : "";
-        $limit = (isset($request->limit)) ? ' limit ' . $request->limit : '';
-
-        $queryResponse = DB::connection('userdatabase')
-            ->select(
-                'select ' . $data
-                    . ' from ' . $request->table
-                    . ' where ' . $where
-                    . ' order by ' . $orderBy
-                    . ' ' . $orderType
-                    . $limit
-            );
+        $queryResponse = DB::connection('userdatabase')->select($request->dataQuery);
         return response()->json($queryResponse);
     }
 

@@ -15,10 +15,16 @@ class ComponentController extends Controller
             'parentId' => $request->parentId,
             'component' => $request->component,
             'dataQuery' => $request->dataQuery,
+            "type" => $request->type,
+            "zoom" => $request->zoom,
+            "title" => $request->title,
+            "xaxis" => $request->xaxis,
+            "yaxis" => $request->yaxis,
             'x' => intval($request->x),
             'y' => intval($request->y),
             'w' => intval($request->w),
             'h' => intval($request->h),
+
         ];
 
         $ComponentRegister = json_decode(Storage::get('dashboards/dashboard-' . $request->parentId . '.json'), true);
