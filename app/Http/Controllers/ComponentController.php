@@ -13,7 +13,7 @@ class ComponentController extends Controller
         $componentData = [
             'i' => intval($request->i),
             'parentId' => $request->parentId,
-            'component' => $request->component,
+            'component' => 'chart',
             'dataQuery' => $request->dataQuery,
             "type" => $request->type,
             "zoom" => $request->zoom,
