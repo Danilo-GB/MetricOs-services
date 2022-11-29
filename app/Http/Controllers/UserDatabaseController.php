@@ -12,14 +12,22 @@ class UserDatabaseController extends Controller
 
     public function makeQuery(Request $request)
     {
-
-        $queryResponse = DB::connection('userdatabase')->select($request->dataQuery);
+        return env('DB_USER_CONNECTION') === "mongodb" ? $this->getMongoDB($request) : $this->getMySQL($request);
+    }
+    private function getMongoDB($query)
+    {
+        $queryResponse = DB::connection('userdatabase')->table($query->qFrom)->get();
         return response()->json($queryResponse);
     }
-
+    private function getMySQL($query)
+    {
+        $queryResponse = DB::connection('userdatabase')->select($query->dataQuery);
+        return response()->json($queryResponse);
+    }
     public function switchDatabase(Request $request)
     {
         $data = [
+            'DB_USER_CONNECTION' => $request->dbType,
             'DB_USER_HOST' => $request->dbHost,
             'DB_USER_PORT' => $request->dbPort,
             'DB_USER_DATABASE' => $request->dbName,
@@ -32,6 +40,7 @@ class UserDatabaseController extends Controller
     public function addDatabase(Request $request)
     {
         $data = [
+            'type' => $request->dbType,
             'host' => $request->dbHost,
             'port' => $request->dbPort,
             'database' => $request->dbName,
