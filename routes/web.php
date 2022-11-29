@@ -4,6 +4,7 @@
 
 
 $router->post('metric-os-api/query', 'UserDatabaseController@makeQuery');
+$router->get('metric-os-api/getDb', 'UserDatabaseController@getCurrentDb');
 $router->post('metric-os-api/switch-db', 'UserDatabaseController@switchDatabase');
 $router->post('metric-os-api/add-db', 'UserDatabaseController@addDatabase');
 $router->post('metric-os-api/read-dbs', 'UserDatabaseController@readDatabases');

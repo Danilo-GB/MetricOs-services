@@ -16,7 +16,7 @@ class UserDatabaseController extends Controller
     }
     private function getMongoDB($query)
     {
-        $queryResponse = DB::connection('userdatabase')->table($query->qFrom)->get();
+        $queryResponse = DB::connection('userdatabase')->table($query->qFrom)->select($query->qSelect)->orderBy($query->qOrderBy, $query->qOrderByType)->get();
         return response()->json($queryResponse);
     }
     private function getMySQL($query)
@@ -24,6 +24,16 @@ class UserDatabaseController extends Controller
         $queryResponse = DB::connection('userdatabase')->select($query->dataQuery);
         return response()->json($queryResponse);
     }
+
+    public function getCurrentDb()
+    {
+        $DBinfo = [
+            'DB_Name' => env('DB_USER_DATABASE'),
+            'DB_Driver' => env('DB_USER_CONNECTION'),
+        ];
+        return response()->json($DBinfo);
+    }
+
     public function switchDatabase(Request $request)
     {
         $data = [
